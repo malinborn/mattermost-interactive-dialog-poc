@@ -69,7 +69,7 @@ async def slash_command(request: Request) -> dict[str, Any]:
                     },
                     {
                         "id": "danilovich_btn",
-                        "name": "Быдло",
+                        "name": "Лебедь",
                         "type": "button",
                         "style": "danger",
                         "integration": {
