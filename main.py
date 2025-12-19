@@ -51,7 +51,7 @@ async def slash_command(request: Request) -> dict[str, Any]:
         logger.warning(f"Invalid token received: {payload.get('token')}")
         raise HTTPException(status_code=401, detail="Invalid token")
 
-    return {
+    response = {
         "response_type": "in_channel",
         "attachments": [
             {
@@ -81,6 +81,8 @@ async def slash_command(request: Request) -> dict[str, Any]:
             }
         ],
     }
+    logger.info(f"Sending slash response: {response}")
+    return response
 
 
 @app.post("/actions")
@@ -93,12 +95,14 @@ async def action_handler(request: Request) -> dict[str, Any]:
     action = payload.context.action if payload.context else None
 
     if action == "goose_btn":
-        return {"update": {"message": GOOSE_ASCII}}
+        response = {"update": {"message": GOOSE_ASCII}}
+    elif action == "danilovich_btn":
+        response = {"update": {"message": "Данилович"}}
+    else:
+        response = {"update": {"message": "Неизвестное действие"}}
 
-    if action == "danilovich_btn":
-        return {"update": {"message": "Данилович"}}
-
-    return {"update": {"message": "Неизвестное действие"}}
+    logger.info(f"Sending action response: {response}")
+    return response
 
 
 @app.get("/health")
