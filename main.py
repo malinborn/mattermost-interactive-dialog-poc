@@ -58,23 +58,23 @@ async def slash_command(request: Request) -> dict[str, Any]:
                 "text": "Выбери кто ты:",
                 "actions": [
                     {
-                        "id": "goose_btn",
+                        "id": "goosebtn",
                         "name": "Гусь",
                         "type": "button",
                         "style": "primary",
                         "integration": {
                             "url": f"{INTEGRATION_URL}/actions",
-                            "context": {"action": "goose_btn"},
+                            "context": {"action": "goosebtn"},
                         },
                     },
                     {
-                        "id": "danilovich_btn",
+                        "id": "danilovichbtn",
                         "name": "Лебедь",
                         "type": "button",
                         "style": "danger",
                         "integration": {
                             "url": f"{INTEGRATION_URL}/actions",
-                            "context": {"action": "danilovich_btn"},
+                            "context": {"action": "danilovichbtn"},
                         },
                     },
                 ],
@@ -94,9 +94,9 @@ async def action_handler(request: Request) -> dict[str, Any]:
     payload = MattermostActionPayload(**payload_json)
     action = payload.context.action if payload.context else None
 
-    if action == "goose_btn":
+    if action == "goosebtn":
         response = {"update": {"message": GOOSE_ASCII}}
-    elif action == "danilovich_btn":
+    elif action == "danilovichbtn":
         response = {"update": {"message": "Данилович"}}
     else:
         response = {"update": {"message": "Неизвестное действие"}}
