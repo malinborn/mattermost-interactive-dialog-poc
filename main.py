@@ -2,7 +2,7 @@ import logging
 import os
 from typing import Any
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
 
 logging.basicConfig(level=logging.INFO)
@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI(title="Mattermost Goose & Danilovich Integration")
 
 INTEGRATION_URL = os.getenv("INTEGRATION_URL", "http://localhost:8000")
+MATTERMOST_TOKEN = os.getenv("MATTERMOST_TOKEN", "")
 
 
 class MattermostContext(BaseModel):
@@ -43,6 +44,10 @@ async def slash_command(request: Request) -> dict[str, Any]:
     form_data = await request.form()
     payload = dict(form_data)
     logger.info(f"Received slash command payload: {payload}")
+
+    if MATTERMOST_TOKEN and payload.get("token") != MATTERMOST_TOKEN:
+        logger.warning(f"Invalid token received: {payload.get('token')}")
+        raise HTTPException(status_code=401, detail="Invalid token")
 
     return {
         "response_type": "in_channel",
