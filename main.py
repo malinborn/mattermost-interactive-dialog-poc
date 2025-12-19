@@ -39,6 +39,15 @@ GOOSE_ASCII = """```
   `---'
 ```"""
 
+SWAN_ASCII = """```
+                           .
+                          ":"
+                        ___:____     |"\\/"|
+                      ,'        `.    \\  /
+                      |  O        \\___/  |
+                    ~^~^~^~^~^~^~^~^~^~^~^~^~
+```"""
+
 
 @app.post("/slash")
 async def slash_command(request: Request) -> dict[str, Any]:
@@ -97,7 +106,7 @@ async def action_handler(request: Request) -> dict[str, Any]:
     if action == "goosebtn":
         response = {"update": {"message": GOOSE_ASCII}}
     elif action == "danilovichbtn":
-        response = {"update": {"message": "Данилович"}}
+        response = {"update": {"message": SWAN_ASCII}}
     else:
         response = {"update": {"message": "Неизвестное действие"}}
 
