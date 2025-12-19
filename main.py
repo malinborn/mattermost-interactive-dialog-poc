@@ -13,6 +13,8 @@ app = FastAPI(title="Mattermost Goose & Danilovich Integration")
 INTEGRATION_URL = os.getenv("INTEGRATION_URL", "http://localhost:8000")
 MATTERMOST_TOKEN = os.getenv("MATTERMOST_TOKEN", "")
 
+logger.info(f"Starting with INTEGRATION_URL: {INTEGRATION_URL}")
+
 
 class MattermostContext(BaseModel):
     action: str | None = None
