@@ -11,3 +11,12 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+
+  bot:
+    build: .
+    command: ["python", "bot.py"]
+    env_file:
+      - .env
+    restart: unless-stopped
+    depends_on:
+      - app
